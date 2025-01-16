@@ -13,18 +13,25 @@ const dadosFaturamento = JSON.parse(
   fs.readFileSync("./dadosFaturamento.json", "utf8")
 );
 
-const diasFaturamento = dadosFaturamento.filter((dias) => dias.valor > 0);
+let maiorFaturamento = 0;
+let menorFaturamento = Infinity;
+let somaFaturamento = 0;
+let diasComFaturamento = 0;
 
-const maiorFaturamento = Math.max(...diasFaturamento.map((dias) => dias.valor));
-const menorFaturamento = Math.min(...diasFaturamento.map((dias) => dias.valor));
+dadosFaturamento.forEach((dia) => {
+  if (dia.valor > 0) {
+    somaFaturamento += dia.valor;
+    diasComFaturamento++;
 
-const somaDoFaturamento = diasFaturamento.reduce(
-  (acumulador, dias) => acumulador + dias.valor,
-  0
-);
-const media = somaDoFaturamento / diasFaturamento.length;
-const diasAcimaDaMedia = diasFaturamento.filter(
-  (dias) => dias.valor > media
+    if (dia.valor > maiorFaturamento) maiorFaturamento = dia.valor;
+    if (dia.valor < menorFaturamento) menorFaturamento = dia.valor;
+  }
+});
+
+const mediaFaturamento = somaFaturamento / diasComFaturamento;
+
+const diasAcimaDaMedia = dadosFaturamento.filter(
+  (dia) => dia.valor > mediaFaturamento
 ).length;
 
 console.log(`o maior faturamento foi: ${maiorFaturamento.toFixed(2)}`);
