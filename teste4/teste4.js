@@ -8,13 +8,11 @@
 Escreva um programa na linguagem que desejar onde calcule o percentual 
 de representação que cada estado teve dentro do valor total mensal da distribuidora.  */
 
-const faturamentoMensalPorEstados = [
-  { estado: "SP", valor: 67836.43 },
-  { estado: "RJ", valor: 36678.66 },
-  { estado: "MG", valor: 29229.88 },
-  { estado: "ES", valor: 27165.48 },
-  { estado: "Outros", valor: 19849.53 },
-];
+const fs = require("fs");
+
+const faturamentoMensalPorEstados = JSON.parse(
+  fs.readFileSync("./faturamentoMensalPorEstados.json", "utf8")
+);
 
 const faturamentoTotal = faturamentoMensalPorEstados.reduce(
   (acumulador, estado) => acumulador + estado.valor,
